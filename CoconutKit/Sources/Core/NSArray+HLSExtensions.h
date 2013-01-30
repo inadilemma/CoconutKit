@@ -16,13 +16,20 @@
 - (id)firstObject_hls;
 
 /**
- * Rotate array elements left or right (elements disappearing at an end are moved to the other end)
+ * Return a copy of the receiver with array elements rotated to the left or right (elements disappearing 
+ * at an end are moved to the other end)
  */
 - (NSArray *)arrayByLeftRotatingNumberOfObjects:(NSUInteger)numberOfElements;
 - (NSArray *)arrayByRightRotatingNumberOfObjects:(NSUInteger)numberOfElements;
 
 /**
- * Sort an array using a single descriptor
+ * Rotate a copy of the receiver with the specified object removed
+ */
+- (NSArray *)arrayByRemovingObjectAtIndex:(NSUInteger)index;
+- (NSArray *)arrayByRemovingObject:(id)object;
+
+/**
+ * Return a copy of the receiver, sorted using a single descriptor
  */
 - (NSArray *)sortedArrayUsingDescriptor:(NSSortDescriptor *)sortDescriptor;
 

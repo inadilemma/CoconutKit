@@ -96,6 +96,34 @@
 + (HLSFileManager *)defaultManager;
 
 /**
+ * Associate any path beginning with the specified root directory with a file manager. Usual I/O operations
+ * will then be performed using this file manager (the remaining path components describe the path within
+ * the file manager storage). Any existing association will be replaced, and if the root directory really
+ * exists association will fail. If fileManager is nil, this is equivalent to calling unregisterFileManagerForRootDirectory:
+ *
+ * When associating a root folder with a file manager, usual I/O methods are swizzled to read an write
+ * data using it (if no such association is made, no swizzling occurs, so you do not pay the price of
+ * this feature if you do not need it). Currently, methods are swizzled on:
+ *   - NSFileMangager
+ *   - NSData
+ *   - NSString
+ *
+ * Since this approach relies on selective method swizzling, it is rather a convenience than a silver
+ * bullet. In some cases, though, it can be a huge time saver, most notably when you want existing library
+ * code (which you might not be able to change) to read and write data using a file manager. If this
+ * library uses only those swizzled methods listed above to perform I/O (this of course requires
+ * a little bit of investigation), then the file manager will be used transparently instead. This 
+ * is of course rather fragile, but can still be of great help in some cases. Use with care
+ */
++ (void)registerRootDirectory:(NSString *)rootDirectory forFileManager:(HLSFileManager *)fileManager;
+
+/**
+ * Remove any existing association between a file manager and a root directory. If no association remains,
+ * swizzling is removed
+ */
++ (void)unregisterFileManagerForRootDirectory:(NSString *)rootDirectory;
+
+/**
  * Return YES iff the file or folder exists at the specified path
  */
 - (BOOL)fileExistsAtPath:(NSString *)path;

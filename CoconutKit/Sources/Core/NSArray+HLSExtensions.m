@@ -45,6 +45,20 @@
     return [self arrayByShiftingNumberOfObjects:[self count] - shift];
 }
 
+- (NSArray *)arrayByRemovingObjectAtIndex:(NSUInteger)index
+{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self];
+    [array removeObjectAtIndex:index];
+    return [[self class] arrayWithArray:array];
+}
+
+- (NSArray *)arrayByRemovingObject:(id)object
+{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self];
+    [array removeObject:object];
+    return [[self class] arrayWithArray:array];
+}
+
 - (NSArray *)arrayByShiftingNumberOfObjects:(NSUInteger)numberOfObjects
 {
     return [[self subarrayWithRange:NSMakeRange(numberOfObjects, [self count] -  numberOfObjects)] 

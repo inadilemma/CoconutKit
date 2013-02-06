@@ -96,7 +96,7 @@ static id swizzled_NSData__initWithContentsOfFile_options_error_Imp(NSData *self
     }
     
     if (! s_rootDirectoryToFileManagerMap) {
-        s_rootDirectoryToFileManagerMap = [NSMutableDictionary dictionary];
+        s_rootDirectoryToFileManagerMap = [[NSMutableDictionary alloc] init];
     }
     [s_rootDirectoryToFileManagerMap setObject:fileManager forKey:rootDirectory];
     

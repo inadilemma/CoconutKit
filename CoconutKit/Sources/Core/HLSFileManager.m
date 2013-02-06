@@ -118,7 +118,7 @@ static id swizzled_NSData__initWithContentsOfFile_options_error_Imp(NSData *self
     }
 }
 
-+ (NSString *)fileManagerForPath:(NSString *)path
++ (HLSFileManager *)fileManagerForPath:(NSString *)path
 {
     NSString *firstPathComponent = [[path componentsSeparatedByString:@"/"] firstObject_hls];
     return [s_rootDirectoryToFileManagerMap objectForKey:firstPathComponent];
@@ -150,42 +150,80 @@ static id swizzled_NSData__initWithContentsOfFile_options_error_Imp(NSData *self
 
 static BOOL swizzled_NSFileManager__createDirectoryAtPath_withIntermediateDirectories_attributes_error_Imp(NSFileManager *self, SEL _cmd, NSString *path, BOOL createIntermediates, NSDictionary *attributes, NSError **pError)
 {
-    return s_NSFileManager__createDirectoryAtPath_withIntermediateDirectories_attributes_error_Imp(self, _cmd, path, createIntermediates, attributes, pError);
+    HLSFileManager *fileManager = [HLSFileManager fileManagerForPath:path];
+    if (! fileManager) {
+        return s_NSFileManager__createDirectoryAtPath_withIntermediateDirectories_attributes_error_Imp(self, _cmd, path, createIntermediates, attributes, pError);
+    }
+    
+    NSString *effectivePath = [HLSFileManager effectivePathForPath:path];
+    return [fileManager createDirectoryAtPath:effectivePath withIntermediateDirectories:createIntermediates error:pError];
 }
 
 static NSArray *swizzled_NSFileManager__contentsOfDirectoryPath_error_Imp(NSFileManager *self, SEL _cmd, NSString *path, NSError **pError)
 {
-    return s_NSFileManager__contentsOfDirectoryAtPath_error_Imp(self, _cmd, path, pError);
+    HLSFileManager *fileManager = [HLSFileManager fileManagerForPath:path];
+    if (! fileManager) {
+        return s_NSFileManager__contentsOfDirectoryAtPath_error_Imp(self, _cmd, path, pError);
+    }
+    
+    NSString *effectivePath = [HLSFileManager effectivePathForPath:path];
+    return [fileManager contentsOfDirectoryAtPath:effectivePath error:pError];
 }
 
 static BOOL swizzled_NSFileManager__fileExistsAtPath_isDirectory_Imp(NSFileManager *self, SEL _cmd, NSString *path, BOOL *pIsDirectory)
 {
-    return s_NSFileManager__fileExistsAtPath_isDirectory_Imp(self, _cmd, path, pIsDirectory);
+    HLSFileManager *fileManager = [HLSFileManager fileManagerForPath:path];
+    if (! fileManager) {
+        return s_NSFileManager__fileExistsAtPath_isDirectory_Imp(self, _cmd, path, pIsDirectory);
+    }
+    
+    NSString *effectivePath = [HLSFileManager effectivePathForPath:path];
+    return [fileManager fileExistsAtPath:effectivePath isDirectory:pIsDirectory];
 }
 
 static BOOL swizzled_NSFileManager__copyItemAtPath_toPath_error_Imp(NSFileManager *self, SEL _cmd, NSString *fromPath, NSString *toPath, NSError **pError)
 {
+    // TODO: Implement so that paths in & out of the file manager storage can be simultaneously specified
     return s_NSFileManager__copyItemAtPath_toPath_error_Imp(self, _cmd, fromPath, toPath, pError);
 }
 
 static BOOL swizzled_NSFileManager__moveItemAtPath_toPath_error_Imp(NSFileManager *self, SEL _cmd, NSString *fromPath, NSString *toPath, NSError **pError)
 {
+    // TODO: Implement so that paths in & out of the file manager storage can be simultaneously specified
     return s_NSFileManager__moveItemAtPath_toPath_error_Imp(self, _cmd, fromPath, toPath, pError);
 }
 
 static NSData *swizzled_NSFileManager__contentsAtPath_Imp(NSFileManager *self, SEL _cmd, NSString *path)
 {
-    return s_NSFileManager__contentsAtPath_Imp(self, _cmd, path);
+    HLSFileManager *fileManager = [HLSFileManager fileManagerForPath:path];
+    if (! fileManager) {
+        return s_NSFileManager__contentsAtPath_Imp(self, _cmd, path);
+    }
+    
+    NSString *effectivePath = [HLSFileManager effectivePathForPath:path];
+    return [fileManager contentsOfFileAtPath:effectivePath error:NULL];
 }
 
 static BOOL swizzled_NSFileManager__createFileAtPath_contents_attributes_Imp(NSFileManager *self, SEL _cmd, NSString *path, NSData *data, NSDictionary *attributes)
 {
-    return s_NSFileManager__createFileAtPath_contents_attributes_Imp(self, _cmd, path, data, attributes);
+    HLSFileManager *fileManager = [HLSFileManager fileManagerForPath:path];
+    if (! fileManager) {
+        return s_NSFileManager__createFileAtPath_contents_attributes_Imp(self, _cmd, path, data, attributes);
+    }
+    
+    NSString *effectivePath = [HLSFileManager effectivePathForPath:path];
+    return [fileManager createFileAtPath:effectivePath contents:data error:NULL];
 }
 
 static BOOL swizzled_NSData__writeToFile_atomically_Imp(NSData *self, SEL _cmd, NSString *path, BOOL atomically)
 {
-    return s_NSData__writeToFile_atomically_Imp(self, _cmd, path, atomically);
+    HLSFileManager *fileManager = [HLSFileManager fileManagerForPath:path];
+    if (! fileManager) {
+        return s_NSData__writeToFile_atomically_Imp(self, _cmd, path, atomically);
+    }
+    
+    NSString *effectivePath = [HLSFileManager effectivePathForPath:path];
+    return [fileManager createFileAtPath:effectivePath contents:self error:NULL];
 }
 
 static BOOL swizzled_NSData__writeToFile_options_error_Imp(NSData *self, SEL _cmd, NSString *path, NSDataWritingOptions options, NSError **pError)

@@ -168,6 +168,8 @@
 		6F507D6E14BB742800D54088 /* DemoTable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6F507D6C14BB742800D54088 /* DemoTable.strings */; };
 		6F5A0BB41509D19300A20DFF /* SlideshowDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F5A0BB21509D19300A20DFF /* SlideshowDemoViewController.m */; };
 		6F5A0BB51509D19300A20DFF /* SlideshowDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F5A0BB31509D19300A20DFF /* SlideshowDemoViewController.xib */; };
+		6F66182E16C2875900303628 /* FolderStorageFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F66182D16C2875900303628 /* FolderStorageFileManager.m */; };
+		6F66182F16C2875900303628 /* FolderStorageFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F66182D16C2875900303628 /* FolderStorageFileManager.m */; };
 		6F8914A015790DDE009FCC78 /* LabelDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F89149E15790DDE009FCC78 /* LabelDemoViewController.m */; };
 		6F8914A115790DDE009FCC78 /* LabelDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F89149F15790DDE009FCC78 /* LabelDemoViewController.xib */; };
 		6F9C464C14C5C30C00824AB2 /* CoconutKit_demoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9C459514C5C30B00824AB2 /* CoconutKit_demoAppDelegate.m */; };
@@ -347,6 +349,8 @@
 		6F5A0BB11509D19300A20DFF /* SlideshowDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideshowDemoViewController.h; sourceTree = "<group>"; };
 		6F5A0BB21509D19300A20DFF /* SlideshowDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideshowDemoViewController.m; sourceTree = "<group>"; };
 		6F5A0BB31509D19300A20DFF /* SlideshowDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SlideshowDemoViewController.xib; sourceTree = "<group>"; };
+		6F66182C16C2875900303628 /* FolderStorageFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderStorageFileManager.h; sourceTree = "<group>"; };
+		6F66182D16C2875900303628 /* FolderStorageFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderStorageFileManager.m; sourceTree = "<group>"; };
 		6F89149D15790DDE009FCC78 /* LabelDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelDemoViewController.h; sourceTree = "<group>"; };
 		6F89149E15790DDE009FCC78 /* LabelDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabelDemoViewController.m; sourceTree = "<group>"; };
 		6F89149F15790DDE009FCC78 /* LabelDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelDemoViewController.xib; sourceTree = "<group>"; };
@@ -1067,6 +1071,8 @@
 				6FF3E71615D37FB900AB9A53 /* CustomTransitions.m */,
 				6F9C463614C5C30B00824AB2 /* DemoErrors.h */,
 				6F9C463714C5C30B00824AB2 /* DemoErrors.m */,
+				6F66182C16C2875900303628 /* FolderStorageFileManager.h */,
+				6F66182D16C2875900303628 /* FolderStorageFileManager.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1562,6 +1568,7 @@
 				6F0BFE11163EEDAC00420A5F /* RootTabBarDemoViewController.m in Sources */,
 				6F22C76116A942970081A9A7 /* DynamicLocalizationDemoViewController.m in Sources */,
 				6F22C78116A942F10081A9A7 /* FontsDemoViewController.m in Sources */,
+				6F66182E16C2875900303628 /* FolderStorageFileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1629,6 +1636,7 @@
 				6F0BFE12163EEDAC00420A5F /* RootTabBarDemoViewController.m in Sources */,
 				6F22C76216A942970081A9A7 /* DynamicLocalizationDemoViewController.m in Sources */,
 				6F22C78216A942F10081A9A7 /* FontsDemoViewController.m in Sources */,
+				6F66182F16C2875900303628 /* FolderStorageFileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

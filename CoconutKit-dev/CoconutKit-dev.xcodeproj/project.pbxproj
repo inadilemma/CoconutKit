@@ -287,6 +287,8 @@
 		6F5A0BAF1509D17B00A20DFF /* SlideshowDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F5A0BAD1509D17B00A20DFF /* SlideshowDemoViewController.xib */; };
 		6F6010F015ABEC8D00A9FEC5 /* HLSContainerStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6010EF15ABEC8C00A9FEC5 /* HLSContainerStack.m */; };
 		6F6010F115ABEC8D00A9FEC5 /* HLSContainerStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6010EF15ABEC8C00A9FEC5 /* HLSContainerStack.m */; };
+		6F66182A16C2874500303628 /* FolderStorageFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F66182916C2874500303628 /* FolderStorageFileManager.m */; };
+		6F66182B16C2874500303628 /* FolderStorageFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F66182916C2874500303628 /* FolderStorageFileManager.m */; };
 		6F6C0A0F159B842A007933EB /* HLSStackPushSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F6C0A0E159B842A007933EB /* HLSStackPushSegue.m */; };
 		6F7A871516522C210030B091 /* UIPopoverController+HLSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7A871416522C210030B091 /* UIPopoverController+HLSExtensions.m */; };
 		6F7A871616522C210030B091 /* UIPopoverController+HLSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F7A871416522C210030B091 /* UIPopoverController+HLSExtensions.m */; };
@@ -599,6 +601,8 @@
 		6F5A0BAD1509D17B00A20DFF /* SlideshowDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SlideshowDemoViewController.xib; sourceTree = "<group>"; };
 		6F6010EE15ABEC8C00A9FEC5 /* HLSContainerStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSContainerStack.h; sourceTree = "<group>"; };
 		6F6010EF15ABEC8C00A9FEC5 /* HLSContainerStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSContainerStack.m; sourceTree = "<group>"; };
+		6F66182816C2874500303628 /* FolderStorageFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderStorageFileManager.h; sourceTree = "<group>"; };
+		6F66182916C2874500303628 /* FolderStorageFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderStorageFileManager.m; sourceTree = "<group>"; };
 		6F6C0A0D159B842A007933EB /* HLSStackPushSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLSStackPushSegue.h; sourceTree = "<group>"; };
 		6F6C0A0E159B842A007933EB /* HLSStackPushSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLSStackPushSegue.m; sourceTree = "<group>"; };
 		6F7A871316522C210030B091 /* UIPopoverController+HLSExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+HLSExtensions.h"; sourceTree = "<group>"; };
@@ -1818,6 +1822,8 @@
 				6FF3E71B15D3801600AB9A53 /* CustomTransitions.m */,
 				6FADE87E14BA04C9007EE121 /* DemoErrors.h */,
 				6FADE87F14BA04C9007EE121 /* DemoErrors.m */,
+				6F66182816C2874500303628 /* FolderStorageFileManager.h */,
+				6F66182916C2874500303628 /* FolderStorageFileManager.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2376,6 +2382,7 @@
 				6F22C74516A858A60081A9A7 /* UIFont+HLSExtensions.m in Sources */,
 				6F22C77216A942B90081A9A7 /* DynamicLocalizationDemoViewController.m in Sources */,
 				6F22C77916A942D90081A9A7 /* FontsDemoViewController.m in Sources */,
+				6F66182A16C2874500303628 /* FolderStorageFileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2538,6 +2545,7 @@
 				6F22C74716A858AD0081A9A7 /* UIFont+HLSExtensions.m in Sources */,
 				6F22C77316A942B90081A9A7 /* DynamicLocalizationDemoViewController.m in Sources */,
 				6F22C77A16A942D90081A9A7 /* FontsDemoViewController.m in Sources */,
+				6F66182B16C2874500303628 /* FolderStorageFileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

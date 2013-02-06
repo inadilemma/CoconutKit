@@ -9,6 +9,7 @@
 #import "CoconutKit_demoAppDelegate.h"
 
 #import "CoconutKit_demoApplication.h"
+#import "FolderStorageFileManager.h"
 
 // Disable quasi-simultaneous taps
 HLSEnableUIControlExclusiveTouch();
@@ -50,6 +51,10 @@ HLSEnableApplicationPreloading();
     
     // Instead of using the UIAppFonts key in the plist to load the Beon font, do it in code
     [UIFont loadFontWithFileName:@"Beon-Regular.otf" inBundle:nil];
+    
+    // Test file manager
+    FolderStorageFileManager *fileManager = [[[FolderStorageFileManager alloc] init] autorelease];
+    [HLSFileManager registerRootDirectory:@"FS" forFileManager:fileManager];
     
     self.application = [[[CoconutKit_demoApplication alloc] init] autorelease];
     self.window.rootViewController = [self.application rootViewController];

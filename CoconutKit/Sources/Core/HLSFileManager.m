@@ -8,6 +8,7 @@
 
 #import "HLSFileManager.h"
 
+#import "HLSRuntime.h"
 #import "NSArray+HLSExtensions.h"
 #import "NSString+HLSExtensions.h"
 
@@ -17,9 +18,50 @@
 static HLSFileManager *s_defaultManager = nil;
 static NSMutableDictionary *s_rootDirectoryToFileManagerMap = nil;
 
+static BOOL (*s_NSFileManager__createDirectoryAtPath_withIntermediateDirectories_attributes_error_Imp)(id, SEL, id, BOOL, id, id *) = NULL;
+static id (*s_NSFileManager__contentsOfDirectoryAtPath_error_Imp)(id, SEL, id, id *) = NULL;
+static BOOL (*s_NSFileManager__fileExistsAtPath_isDirectory_Imp)(id, SEL, id, BOOL *) = NULL;
+static BOOL (*s_NSFileManager__copyItemAtPath_toPath_error_Imp)(id, SEL, id, id, id *) = NULL;
+static BOOL (*s_NSFileManager__moveItemAtPath_toPath_error_Imp)(id, SEL, id, id, id *) = NULL;
+static id (*s_NSFileManager__contentsAtPath_Imp)(id, SEL, id) = NULL;
+static BOOL (*s_NSFileManager__createFileAtPath_contents_attributes_Imp)(id, SEL, id, id, id) = NULL;
+
+static BOOL (*s_NSData__writeToFile_atomically_Imp)(id, SEL, id, BOOL) = NULL;
+static BOOL (*s_NSData__writeToFile_options_error_Imp)(id, SEL, id, NSDataWritingOptions, id *) = NULL;
+static id (*s_NSData__initWithContentsOfFile_options_error_Imp)(id, SEL, id, NSDataReadingOptions, id *) = NULL;
+
+// TODO: Same for NSString. Swizzle all public methods, regardless of how they are actually implemented
+
+static BOOL swizzled_NSFileManager__createDirectoryAtPath_withIntermediateDirectories_attributes_error_Imp(NSFileManager *self, SEL _cmd, NSString *path, BOOL createIntermediates, NSDictionary *attributes, NSError **pError);
+static NSArray *swizzled_NSFileManager__contentsOfDirectoryPath_error_Imp(NSFileManager *self, SEL _cmd, NSString *path, NSError **pError);
+static BOOL swizzled_NSFileManager__fileExistsAtPath_isDirectory_Imp(NSFileManager *self, SEL _cmd, NSString *path, BOOL *pIsDirectory);
+static BOOL swizzled_NSFileManager__copyItemAtPath_toPath_error_Imp(NSFileManager *self, SEL _cmd, NSString *fromPath, NSString *toPath, NSError **pError);
+static BOOL swizzled_NSFileManager__moveItemAtPath_toPath_error_Imp(NSFileManager *self, SEL _cmd, NSString *fromPath, NSString *toPath, NSError **pError);
+static NSData *swizzled_NSFileManager__contentsAtPath_Imp(NSFileManager *self, SEL _cmd, NSString *path);
+static BOOL swizzled_NSFileManager__createFileAtPath_contents_attributes_Imp(NSFileManager *self, SEL _cmd, NSString *path, NSData *data, NSDictionary *attributes);
+
+static BOOL swizzled_NSData__writeToFile_atomically_Imp(NSData *self, SEL _cmd, NSString *path, BOOL atomically);
+static BOOL swizzled_NSData__writeToFile_options_error_Imp(NSData *self, SEL _cmd, NSString *path, NSDataWritingOptions options, NSError **pError);
+static id swizzled_NSData__initWithContentsOfFile_options_error_Imp(NSData *self, SEL _cmd, NSString *path, NSDataReadingOptions options, NSError **pError);
+
 @implementation HLSFileManager
 
-#pragma mark Class methods
+#pragma mark Class method
+
++ (void)load
+{
+    s_NSFileManager__createDirectoryAtPath_withIntermediateDirectories_attributes_error_Imp = (BOOL (*)(id, SEL, id, BOOL, id, id *))HLSSwizzleSelector([NSFileManager class], @selector(createDirectoryAtPath:withIntermediateDirectories:attributes:error:), (IMP)swizzled_NSFileManager__createDirectoryAtPath_withIntermediateDirectories_attributes_error_Imp);
+    s_NSFileManager__contentsOfDirectoryAtPath_error_Imp = (id (*)(id, SEL, id, id *))HLSSwizzleSelector([NSFileManager class], @selector(contentsOfDirectoryAtPath:error:), (IMP)swizzled_NSFileManager__contentsOfDirectoryPath_error_Imp);
+    s_NSFileManager__fileExistsAtPath_isDirectory_Imp = (BOOL (*)(id, SEL, id, BOOL *))HLSSwizzleSelector([NSFileManager class], @selector(fileExistsAtPath:isDirectory:), (IMP)swizzled_NSFileManager__fileExistsAtPath_isDirectory_Imp);
+    s_NSFileManager__copyItemAtPath_toPath_error_Imp = (BOOL (*)(id, SEL, id, id, id *))HLSSwizzleSelector([NSFileManager class], @selector(copyItemAtPath:toPath:error:), (IMP)swizzled_NSFileManager__copyItemAtPath_toPath_error_Imp);
+    s_NSFileManager__moveItemAtPath_toPath_error_Imp = (BOOL (*)(id, SEL, id, id, id *))HLSSwizzleSelector([NSFileManager class], @selector(moveItemAtPath:toPath:error:), (IMP)swizzled_NSFileManager__moveItemAtPath_toPath_error_Imp);
+    s_NSFileManager__contentsAtPath_Imp = (id (*)(id, SEL, id))HLSSwizzleSelector([NSFileManager class], @selector(contentsAtPath:), (IMP)swizzled_NSFileManager__contentsAtPath_Imp);
+    s_NSFileManager__createFileAtPath_contents_attributes_Imp = (BOOL (*)(id, SEL, id, id, id))HLSSwizzleSelector([NSFileManager class], @selector(createFileAtPath:contents:attributes:), (IMP)swizzled_NSFileManager__createFileAtPath_contents_attributes_Imp);
+    
+    s_NSData__writeToFile_atomically_Imp = (BOOL (*)(id, SEL, id, BOOL))HLSSwizzleSelector([NSData class], @selector(writeToFile:atomically:), (IMP)swizzled_NSData__writeToFile_atomically_Imp);
+    s_NSData__writeToFile_options_error_Imp = (BOOL (*)(id, SEL, id, NSDataWritingOptions, id *))HLSSwizzleSelector([NSData class], @selector(writeToFile:options:error:), (IMP)swizzled_NSData__writeToFile_options_error_Imp);
+    s_NSData__initWithContentsOfFile_options_error_Imp = (id (*)(id, SEL, id, NSDataReadingOptions, id *))HLSSwizzleSelector([NSData class], @selector(initWithContentsOfFile:options:error:), (IMP)swizzled_NSData__initWithContentsOfFile_options_error_Imp);
+}
 
 + (HLSFileManager *)setDefaultManager:(HLSFileManager *)defaultManager
 {
@@ -103,3 +145,55 @@ static NSMutableDictionary *s_rootDirectoryToFileManagerMap = nil;
 }
 
 @end
+
+#pragma mark Swizzled method implementations
+
+static BOOL swizzled_NSFileManager__createDirectoryAtPath_withIntermediateDirectories_attributes_error_Imp(NSFileManager *self, SEL _cmd, NSString *path, BOOL createIntermediates, NSDictionary *attributes, NSError **pError)
+{
+    return s_NSFileManager__createDirectoryAtPath_withIntermediateDirectories_attributes_error_Imp(self, _cmd, path, createIntermediates, attributes, pError);
+}
+
+static NSArray *swizzled_NSFileManager__contentsOfDirectoryPath_error_Imp(NSFileManager *self, SEL _cmd, NSString *path, NSError **pError)
+{
+    return s_NSFileManager__contentsOfDirectoryAtPath_error_Imp(self, _cmd, path, pError);
+}
+
+static BOOL swizzled_NSFileManager__fileExistsAtPath_isDirectory_Imp(NSFileManager *self, SEL _cmd, NSString *path, BOOL *pIsDirectory)
+{
+    return s_NSFileManager__fileExistsAtPath_isDirectory_Imp(self, _cmd, path, pIsDirectory);
+}
+
+static BOOL swizzled_NSFileManager__copyItemAtPath_toPath_error_Imp(NSFileManager *self, SEL _cmd, NSString *fromPath, NSString *toPath, NSError **pError)
+{
+    return s_NSFileManager__copyItemAtPath_toPath_error_Imp(self, _cmd, fromPath, toPath, pError);
+}
+
+static BOOL swizzled_NSFileManager__moveItemAtPath_toPath_error_Imp(NSFileManager *self, SEL _cmd, NSString *fromPath, NSString *toPath, NSError **pError)
+{
+    return s_NSFileManager__moveItemAtPath_toPath_error_Imp(self, _cmd, fromPath, toPath, pError);
+}
+
+static NSData *swizzled_NSFileManager__contentsAtPath_Imp(NSFileManager *self, SEL _cmd, NSString *path)
+{
+    return s_NSFileManager__contentsAtPath_Imp(self, _cmd, path);
+}
+
+static BOOL swizzled_NSFileManager__createFileAtPath_contents_attributes_Imp(NSFileManager *self, SEL _cmd, NSString *path, NSData *data, NSDictionary *attributes)
+{
+    return s_NSFileManager__createFileAtPath_contents_attributes_Imp(self, _cmd, path, data, attributes);
+}
+
+static BOOL swizzled_NSData__writeToFile_atomically_Imp(NSData *self, SEL _cmd, NSString *path, BOOL atomically)
+{
+    return s_NSData__writeToFile_atomically_Imp(self, _cmd, path, atomically);
+}
+
+static BOOL swizzled_NSData__writeToFile_options_error_Imp(NSData *self, SEL _cmd, NSString *path, NSDataWritingOptions options, NSError **pError)
+{
+    return s_NSData__writeToFile_options_error_Imp(self, _cmd, path, options, pError);
+}
+
+static id swizzled_NSData__initWithContentsOfFile_options_error_Imp(NSData *self, SEL _cmd, NSString *path, NSDataReadingOptions options, NSError **pError)
+{
+    return s_NSData__initWithContentsOfFile_options_error_Imp(self, _cmd, path, options, pError);
+}

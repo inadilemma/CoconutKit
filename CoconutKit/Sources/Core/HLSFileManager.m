@@ -10,6 +10,7 @@
 
 #import "HLSRuntime.h"
 #import "NSArray+HLSExtensions.h"
+#import "HLSLogger.h"
 #import "NSString+HLSExtensions.h"
 
 // TODO: When available in CoconutKit (feature/url-connection branch), check protocol conformance (all methods from the

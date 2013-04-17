@@ -54,8 +54,8 @@ static void swizzled_UITextField__becomeFirstResponder_Imp(UITextField *self, SE
 
 static void swizzled_UITextField__resignFirstResponder_Imp(UITextField *self, SEL _cmd)
 {
-    (*s_UITextField__resignFirstResponder_Imp)(self, _cmd);
     if (self == s_currentTextField) {
         s_currentTextField = nil;
     }
+    (*s_UITextField__resignFirstResponder_Imp)(self, _cmd);    
 }
